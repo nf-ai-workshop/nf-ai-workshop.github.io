@@ -119,8 +119,7 @@ h3 {
     /* padding: 40px 20px; */
     padding: 40px 0;
     color: white;
-    background-image: linear-gradient(135deg, #333, black, #333);
-    /* background-image: url("assets/teaser.jpg"); */
+    background-image: linear-gradient(135deg, rgba(0,0,0,0.72), rgba(0,0,0,0.55), rgba(0,0,0,0.72)), url("../images/background_figure.png");
     background-size: cover;
     background-position: center center;
     display: flex;

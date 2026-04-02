@@ -192,15 +192,23 @@
   <div class="section" id="contact">
     <h2>Contact</h2>
     <div>
-      For questions and comments, please contact us at <strong>nfconference [at] ctf [dot] org</strong>.
+      For questions and comments, please contact us at 
+      <span id="email-placeholder"></span>.
     </div>
   </div>
+  
+  <script>
+    // This builds the link only when the page loads
+    var user = "nfconference";
+    var domain = "ctf.org";
+    document.getElementById('email-placeholder').innerHTML = 
+      '<a href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
+  </script>
 
   <div class="foot">
     © NF AI Workshop 2026
   </div>
 </div>
-
 
 </body>
 

@@ -5,7 +5,7 @@
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
-  <title>NF AI Workshop 2026</title>
+  <title>NF AI Innovation Workshop 2026</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 
@@ -23,9 +23,9 @@
 
 <div class="title-container">
   <div style="text-align: center;">
-    <h1>NF AI Workshop 2026</h1>
+    <h1>NF AI Innovation Workshop 2026</h1>
     <div class="subtitle" style="color: #ccc; margin: 20px">
-      AI for Neurofibromatosis Research: Discovery, Collaboration, and Building
+      AI for NF Research: Discovery, Collaboration, and Building
     </div>
     <div class="subtitle" style="color: #ccc; margin: 20px">
       June 27-28, 2026
@@ -42,7 +42,7 @@
   <div class="section" id="intro">
     <h2>Introduction</h2>
     <p>
-      This workshop brings together NF researchers, clinicians, and AI experts for a hands-on exploration of how cutting-edge agentic AI — specifically Anthropic's Claude — can accelerate neurofibromatosis research today. Rather than waiting for dedicated "AI collaborators," researchers will learn how to directly harness powerful AI tools to advance their own scientific and clinical questions.
+      This workshop brings together NF researchers, clinicians, and AI experts for a hands-on exploration of how cutting-edge agentic AI — specifically Anthropic's Claude — can accelerate neurofibromatosis and schwannomatosis research today. Rather than waiting for dedicated "AI collaborators," researchers will learn how to directly harness powerful AI tools to advance their own scientific and clinical questions.
     </p>
     <p>
       The event is structured around a Discovery and Discussion Session anchored by a virtual presentation from Jonah Cool, Head of Life Sciences Partnerships at Anthropic, followed by a focused working session where researchers and teams build proof-of-concept projects with direct support from AI experts.
@@ -175,7 +175,7 @@
         <div class="aff">PhD Student, UIUC</div>
       </a>
 
-      <a href="#">
+      <a href="https://wenzhouding.github.io">
         <img src="images/wenzhou_headshot.jpg">
         <div>Wenzhou Ding</div>
         <div class="aff">MSCS Student, UIUC</div>
@@ -183,16 +183,38 @@
     </div>
   </div>
 
+  <div class="section" id="nf-conference">
+    <h2>NF Conference</h2>
+    <div class="conference-content">
+      <p>
+        The Children’s Tumor Foundation’s 2026 NF Conference in Denver, CO is the premier event for the global NF research and clinical community, uniting experts and innovators dedicated to transforming outcomes for patients with NF. This includes NF1 and all types of schwannomatosis (SWN), such as <i>NF2-related schwannomatosis</i> (NF2-SWN), previously known as neurofibromatosis type 2.
+      </p>
+      <a href="https://www.ctf.org/nf-conference/" class="btn-learn-more" target="_blank" rel="noopener">
+        Learn More about the NF Conference
+      </a>
+    </div>
+  </div>
+
   <div class="section" id="contact">
     <h2>Contact</h2>
-    <div>For questions and comments, please contact us [email TBA].</div>
+    <div>
+      For questions and comments, please contact us at 
+      <span id="email-placeholder"></span>.
+    </div>
   </div>
+  
+  <script>
+    // This builds the link only when the page loads
+    var user = "nfconference";
+    var domain = "ctf.org";
+    document.getElementById('email-placeholder').innerHTML = 
+      '<a href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
+  </script>
 
   <div class="foot">
     © NF AI Workshop 2026
   </div>
 </div>
-
 
 </body>
 

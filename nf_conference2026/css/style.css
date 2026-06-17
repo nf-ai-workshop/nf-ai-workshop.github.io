@@ -156,6 +156,158 @@ th {
     text-align: left;
 }
 
+/* ===== Agenda schedule (styled to match agenda.png) ===== */
+.agenda-block {
+    max-width: 1000px;
+}
+.agenda-block + .agenda-block {
+    margin-top: 42px;
+}
+
+/* Day header: small accent bar + uppercase date eyebrow, title */
+.agenda-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #8c8c89;
+    font-size: 0.95em;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.agenda-eyebrow::before {
+    content: "";
+    flex: none;
+    width: 5px;
+    height: 1.05em;
+    border-radius: 3px;
+    background: #534ab7;
+}
+.agenda-title {
+    margin: 7px 0 18px;
+    padding-left: 17px;
+    font-size: 1.6em;
+    line-height: 1.2;
+    font-weight: 500;
+    color: #141413;
+}
+
+/* Card wrapper gives the rounded border + clips the header corners */
+.agenda-card {
+    border: 1px solid #e4e2dd;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #fff;
+}
+.agenda {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 1em;
+    font-weight: 300;
+}
+
+.agenda th {
+    text-align: left;
+    background: #eeedfe;
+    color: #3c3489;
+    font-weight: 500;
+    font-size: 0.95em;
+    padding: 12px 18px;
+    border: none;
+    border-bottom: 1px solid #e4e2dd;
+}
+
+.agenda td {
+    border: none;
+    border-bottom: 1px solid #ecebe6;
+    padding: 15px 18px;
+    vertical-align: top;
+}
+.agenda tr:last-child td {
+    border-bottom: none;
+}
+
+/* Time column: cream tint + vertical divider */
+.agenda .time {
+    background: #f5f4ed;
+    border-right: 1px solid #e7e5df;
+    color: #3d3d3a;
+    white-space: nowrap;
+    font-weight: 300;
+}
+
+/* Speaker column: name, gray affiliation, vertical divider */
+.agenda .who {
+    border-right: 1px solid #e7e5df;
+    font-weight: 500;
+    color: #141413;
+}
+.agenda .who .aff {
+    display: block;
+    font-size: 0.9em;
+    color: #76766f;
+    font-weight: 300;
+    margin-top: 3px;
+}
+
+/* Description: title on its own line + gray body */
+.agenda .desc {
+    color: #44443f;
+    font-weight: 300;
+}
+.agenda .desc .dt {
+    display: block;
+    color: #141413;
+    font-weight: 500;
+    margin-bottom: 3px;
+}
+.agenda .desc ul {
+    margin: 8px 0 0;
+    padding-left: 18px;
+}
+
+/* Featured (keynote) row: lavender time cell + purple accent bar */
+.agenda tr.featured .time {
+    background: #eeedfe;
+    box-shadow: inset 4px 0 0 #9d96e8;
+}
+
+/* Section divider rows: centered uppercase label with a rule on each side */
+.agenda .section-row td {
+    border: none;
+    padding: 18px 16px 16px;
+    text-align: center;
+    position: relative;
+    background: #fff;
+}
+.agenda .section-row td::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 50%;
+    height: 1px;
+    background: #e7e5df;
+}
+.agenda .section-row span {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+    padding: 0 16px;
+    font-size: 0.8em;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #73736e;
+}
+
+@media screen and (max-width: 640px) {
+    .agenda { font-size: 0.92em; }
+    .agenda th, .agenda td { padding: 11px 10px; }
+    .agenda-title { font-size: 1.35em; }
+}
+
 .people {
     display: flex;
     flex-direction: row;

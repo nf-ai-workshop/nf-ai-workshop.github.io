@@ -1,6 +1,7 @@
 # NF AI Innovation Workshop
 
 A two-day workshop bringing together NF researchers, clinicians, and AI experts to explore how agentic AI (Anthropic's Claude) can accelerate NF research. Participants attend a Discovery & Discussion Session with Anthropic's Head of Life Sciences Partnerships, then spend the afternoon building proof-of-concept AI projects with support from PhD-level technical assistants and field coaches. Projects are presented on the second day.
+Workshop webpage: https://nf-ai-workshop.github.io/nf_conference2026/
 
 ## Debugging / Local Development
 

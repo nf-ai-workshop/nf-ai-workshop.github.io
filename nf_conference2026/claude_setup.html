@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Claude Code in VS Code — Tutorial · NF AI Workshop 2026</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ============================================================
+       Tutorial page — styled to match the NF AI Workshop design
+       (purple #534ab7 accents, cream neutrals, Roboto, card UI)
+       ============================================================ */
+
+    .tut-page { color: #2c2c2a; }
+
+    /* ---- Top nav (reuses .nav from style.css, tweaks layout) ---- */
+    .tut-topnav .nav-container {
+      max-width: 1040px;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tut-topnav .brand {
+      color: #141413;
+      font-weight: 500;
+      margin-left: 0;
+    }
+    .tut-topnav .brand:hover { color: #534ab7; }
+    .tut-topnav .nav-links { display: flex; flex-wrap: wrap; }
+    @media screen and (max-width: 720px) {
+      .tut-topnav .nav-container { justify-content: center; }
+    }
+
+    /* ---- Hero ---- */
+    .tut-hero {
+      color: #fff;
+      background-image:
+        linear-gradient(135deg, rgba(0,0,0,0.82), rgba(0,0,0,0.62) 55%, rgba(83,74,183,0.62)),
+        url("../images/background_figure.png");
+      background-size: cover;
+      background-position: center center;
+    }
+    .tut-hero-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 26px 24px 48px;
+    }
+    .tut-crumb {
+      display: inline-block;
+      color: #d8d4f0;
+      font-size: 0.9em;
+      margin-bottom: 22px;
+    }
+    .tut-crumb:hover { color: #fff; }
+    .tut-hero .eyebrow {
+      font-size: 0.8em;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #cfc9f5;
+      font-weight: 500;
+    }
+    .tut-hero h1 {
+      font-size: 2.9em;
+      font-weight: 300;
+      line-height: 1.08;
+      margin: 14px 0 12px;
+    }
+    .tut-hero .lede {
+      font-size: 1.15em;
+      font-weight: 300;
+      color: #e9e6f8;
+      max-width: 640px;
+      margin: 0;
+    }
+    .tut-hero .by { margin-top: 16px; font-size: 0.95em; color: #d6d2ef; }
+    .tut-hero .by a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+    .tut-hero .feedback {
+      margin-top: 22px;
+      display: inline-block;
+      font-size: 0.9em;
+      color: #efedfa;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.20);
+      padding: 11px 16px;
+      border-radius: 10px;
+    }
+    .tut-hero .feedback a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+    @media screen and (max-width: 600px) {
+      .tut-hero h1 { font-size: 1.95em; }
+      .tut-hero .lede { font-size: 1.02em; }
+    }
+
+    /* ---- Two-column layout: sticky TOC + content ---- */
+    .tut-wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px 70px; }
+    .tut-layout {
+      display: grid;
+      grid-template-columns: 210px 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-top: 38px;
+    }
+    .tut-content { min-width: 0; }
+    .tut-content p { line-height: 1.65; }
+    .tut-content a { color: #534ab7; text-decoration: underline; text-underline-offset: 2px; }
+    .tut-content a:hover { color: #3c3489; }
+    .tut-content code {
+      background: #f1eff8;
+      color: #473f9e;
+      padding: 1.5px 6px;
+      border-radius: 5px;
+      font-size: 0.86em;
+      font-family: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+    }
+
+    /* ---- Table of contents (sidebar) ---- */
+    .tut-toc { position: sticky; top: 84px; font-size: 0.9em; }
+    .tut-toc .toc-label {
+      font-size: 0.72em;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #8c8c89;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .tut-toc ol { list-style: none; margin: 0; padding: 0; border-left: 2px solid #ece9fb; }
+    .tut-toc li { margin: 0; }
+    .tut-toc a {
+      display: block;
+      padding: 6px 0 6px 16px;
+      margin-left: -2px;
+      border-left: 2px solid transparent;
+      color: #5b5b66;
+      text-decoration: none;
+      line-height: 1.35;
+    }
+    .tut-toc a:hover { color: #534ab7; border-left-color: #c9c3f3; }
+    .tut-toc a.active { color: #534ab7; font-weight: 500; border-left-color: #534ab7; }
+    .tut-toc .sub a { padding-left: 28px; font-size: 0.95em; color: #80807a; }
+
+    /* ---- Section headings (eyebrow + accent bar) ---- */
+    .tut-section { margin-top: 14px; }
+    .tut-section + .tut-section { margin-top: 52px; }
+    .tut-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #8c8c89;
+      font-size: 0.8em;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+    .tut-eyebrow::before {
+      content: "";
+      flex: none;
+      width: 5px;
+      height: 1.05em;
+      border-radius: 3px;
+      background: #534ab7;
+    }
+    .tut-h2 {
+      scroll-margin-top: 86px;
+      margin: 9px 0 6px;
+      font-size: 1.85em;
+      font-weight: 500;
+      line-height: 1.18;
+      color: #141413;
+    }
+    .tut-h3 {
+      scroll-margin-top: 86px;
+      margin: 40px 0 4px;
+      font-size: 1.3em;
+      font-weight: 500;
+      color: #141413;
+    }
+    .tut-h3 .num { color: #534ab7; font-weight: 500; }
+    .tut-h4 {
+      margin: 30px 0 6px;
+      font-size: 1.02em;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #3c3489;
+    }
+
+    /* ---- Numbered steps (vertical stepper) ---- */
+    .steps { list-style: none; counter-reset: step; margin: 22px 0 0; padding: 0; }
+    .step {
+      counter-increment: step;
+      position: relative;
+      padding-left: 54px;
+      padding-bottom: 30px;
+    }
+    .step::before {
+      content: counter(step);
+      position: absolute;
+      left: 0;
+      top: -1px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #534ab7;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 0.92em;
+      font-weight: 500;
+      box-shadow: 0 2px 7px rgba(83,74,183,0.35);
+    }
+    .step::after {
+      content: "";
+      position: absolute;
+      left: 15px;
+      top: 38px;
+      bottom: 0;
+      width: 2px;
+      background: #e7e4f6;
+    }
+    .step:last-child { padding-bottom: 6px; }
+    .step:last-child::after { display: none; }
+    .step-text { margin: 5px 0 0; line-height: 1.6; }
+
+    .sub { margin: 12px 0 0; padding-left: 20px; }
+    .sub li { margin: 8px 0; line-height: 1.6; }
+
+    /* ---- Screenshot figures ---- */
+    .shot { margin: 16px 0 0; }
+    .shot img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid #e4e2dd;
+      border-radius: 10px;
+      box-shadow: 0 8px 24px rgba(20,20,19,0.09);
+    }
+    .shot figcaption {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 9px;
+      font-size: 0.82em;
+      color: #8c8c89;
+    }
+    .shot figcaption::before {
+      content: "";
+      flex: none;
+      width: 14px;
+      height: 2px;
+      border-radius: 2px;
+      background: #9d96e8;
+    }
+
+    /* ---- Callout notes ---- */
+    .note {
+      position: relative;
+      margin: 16px 0;
+      padding: 14px 18px 14px 44px;
+      background: #f4f3fd;
+      border: 1px solid #e5e3f7;
+      border-left: 4px solid #534ab7;
+      border-radius: 8px;
+      color: #3c3a52;
+      font-size: 0.95em;
+      line-height: 1.6;
+    }
+    .note::before {
+      content: "✦";
+      position: absolute;
+      left: 16px;
+      top: 13px;
+      color: #534ab7;
+    }
+    .note a { color: #473f9e; }
+    .note.warn {
+      background: #fdf4ee;
+      border-color: #f2dccd;
+      border-left-color: #d4673a;
+      color: #5b4231;
+    }
+    .note.warn::before { content: "▲"; color: #d4673a; font-size: 0.85em; top: 15px; }
+    .note.warn a { color: #b8542a; }
+
+    /* ---- Tips card ---- */
+    .tip-card {
+      border: 1px solid #e4e2dd;
+      border-radius: 12px;
+      background: #fbfaf6;
+      padding: 4px 22px;
+      margin: 16px 0;
+    }
+    .tip-card ul { list-style: none; margin: 0; padding: 0; }
+    .tip-card li {
+      position: relative;
+      padding: 15px 0 15px 28px;
+      border-bottom: 1px solid #efeee8;
+      line-height: 1.6;
+    }
+    .tip-card li:last-child { border-bottom: none; }
+    .tip-card li::before {
+      content: "›";
+      position: absolute;
+      left: 6px;
+      top: 13px;
+      color: #534ab7;
+      font-weight: 700;
+      font-size: 1.15em;
+    }
+
+    .bullets { padding-left: 20px; margin: 12px 0; }
+    .bullets li { margin: 8px 0; line-height: 1.6; }
+
+    /* ---- Bottom back link + footer ---- */
+    .tut-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 48px;
+      padding: 10px 20px;
+      border: 1px solid #e4e2dd;
+      border-radius: 999px;
+      color: #534ab7;
+      font-size: 0.92em;
+      font-weight: 500;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .tut-back:hover { background: #534ab7; color: #fff; border-color: #534ab7; }
+
+    .tut-foot {
+      border-top: 1px solid #ececea;
+      text-align: center;
+      color: #8c8c89;
+      font-size: 0.85em;
+      padding: 22px 20px 30px;
+    }
+    .tut-foot a { color: #534ab7; text-decoration: none; }
+    .tut-foot a:hover { text-decoration: underline; }
+
+    /* ---- Responsive: collapse sidebar ---- */
+    @media screen and (max-width: 880px) {
+      .tut-layout { grid-template-columns: 1fr; gap: 0; }
+      .tut-toc {
+        position: static;
+        top: auto;
+        margin-bottom: 12px;
+        border: 1px solid #e4e2dd;
+        border-radius: 12px;
+        background: #faf9f5;
+        padding: 16px 20px;
+      }
+      .tut-toc ol { border-left: none; }
+      .tut-toc a { border-left: none; padding-left: 0; }
+      .tut-toc a:hover, .tut-toc a.active { border-left: none; }
+      .tut-toc .sub a { padding-left: 16px; }
+    }
+    @media screen and (max-width: 600px) {
+      .step { padding-left: 46px; }
+    }
+  </style>
+</head>
+
+<body class="tut-page">
+
+  <!-- Top navigation -->
+  <div class="nav tut-topnav">
+    <div class="nav-container">
+      <a class="brand" href="index.html">&larr; NF AI Workshop 2026</a>
+      <span class="nav-links">
+        <a href="#setup">Setup</a>
+        <a href="#project">Start a Project</a>
+        <a href="#claude-settings">Settings</a>
+        <a href="#tips">Tips</a>
+      </span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <header class="tut-hero">
+    <div class="tut-hero-inner">
+      <a class="tut-crumb" href="index.html#schedule">&larr; Back to Workshop Schedule</a>
+      <div class="eyebrow">NF AI Workshop 2026 · Tutorial</div>
+      <h1>Claude Code in VS Code</h1>
+      <p class="lede">Install Claude Code, set up your first project, and learn the commands and habits that make working with Claude in VS Code productive.</p>
+      <div class="by">Brought to you by the <a href="https://nf-ai-workshop.github.io/nf_conference2026/">2026 NF AI Workshop</a></div>
+      <div class="feedback">Reach out to <a href="https://gxywang.github.io">Gloria Wang</a> with any feedback on this tutorial.</div>
+    </div>
+  </header>
+
+  <div class="tut-wrap">
+    <div class="tut-layout">
+
+      <!-- Sidebar TOC -->
+      <aside class="tut-toc">
+        <div class="toc-label">On this page</div>
+        <ol>
+          <li><a href="#setup">1. Setting Up Claude Code in VS Code</a></li>
+          <li><a href="#project">2. Starting a Project with Claude Code</a></li>
+          <li class="sub"><a href="#new-project">2.1 Setting up a new project</a></li>
+          <li class="sub"><a href="#intro-vscode">2.2 An introduction to VS Code</a></li>
+          <li class="sub"><a href="#claude-settings">2.3 Claude settings</a></li>
+          <li class="sub"><a href="#tips">2.4 Tips on using Claude in VS Code</a></li>
+        </ol>
+      </aside>
+
+      <!-- Main content -->
+      <main class="tut-content">
+
+        <!-- ============ SECTION 1 ============ -->
+        <section class="tut-section">
+          <div class="tut-eyebrow">Part 1</div>
+          <h2 class="tut-h2" id="setup">Setting Up Claude Code in VS Code</h2>
+
+          <ol class="steps">
+            <li class="step">
+              <p class="step-text">Go to <a href="https://code.visualstudio.com/">VS Code</a> and select the <code>Download</code> button in the middle of the screen.</p>
+              <figure class="shot">
+                <img src="../media/vscode.png" alt="vs code screenshot">
+                <figcaption>code.visualstudio.com — Download</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Once the file has finished downloading, open your <code>Downloads</code> folder and double-click on the file <code>VSCode-darwin-arm64.dmg</code>. A pop-up window should appear like the one below (for Mac):</p>
+              <figure class="shot">
+                <img src="../media/vscode_install.png" alt="vs code download">
+                <figcaption>Installer window (macOS)</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Follow the instructions in the pop-up window. On Mac, drag the <code>Visual Studio Code</code> icon into the <code>Applications</code> folder. Bringup the app by searching for <code>Visual Studio Code</code> in Spotlight Search (on Mac) or Windows Search (on Windows).</p>
+              <figure class="shot">
+                <img src="../media/vscode_welcome.png" alt="vs code">
+                <figcaption>VS Code Welcome screen</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Select the <code>Extensions</code> button on the left sidebar where the mouse cursor is on the image above. This will pull up a side window where you can search for <code>claude</code> and install the extension called <code>Claude Code for VS Code</code> as seen in the image below.</p>
+              <figure class="shot">
+                <img src="../media/vscode_extensions.png" alt="vs code extensions">
+                <figcaption>Extensions panel — search “claude”</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Then click the <code>Claude Code</code> button in the top right corner to bring up the extension.</p>
+              <figure class="shot">
+                <img src="../media/vscode_claude_ext.png" alt="vs code claude extension">
+                <figcaption>Open the Claude Code panel</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Now you should see something similar to the image below with <code>Claude Code</code> on the right window.</p>
+              <figure class="shot">
+                <img src="../media/vscode_claude_code.png" alt="vs code claude code">
+                <figcaption>Claude Code, docked on the right</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">You can clean up the screen by clicking the <code>Extension</code> button on the left sidebar again to minimize the window.</p>
+              <figure class="shot">
+                <img src="../media/vscode_ext_minimize.png" alt="vs code minimize extension">
+                <figcaption>Minimize the Extensions sidebar</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">And close the <code>Extension: Claude Code for VS Code</code> window by clicking the <code>X</code> button on the top menu.</p>
+              <figure class="shot">
+                <img src="../media/vscode_exit_ext.png" alt="vs code exit extension">
+                <figcaption>Close the extension tab</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Your screen should look similar to below.</p>
+              <figure class="shot">
+                <img src="../media/vscode_clean.png" alt="vs code clean">
+                <figcaption>A clean workspace</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">In <code>Claude Code</code>, click login with <code>Anthropic Console</code> and allow the pop-up window to open.</p>
+              <figure class="shot">
+                <img src="../media/claude_login.png" alt="claude login">
+                <figcaption>Log in with Anthropic Console</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">This will pull up a login page on your browser like the one below. Login with the email you used to register for the workshop, and follow the login instructions on the screen.</p>
+              <figure class="shot">
+                <img src="../media/claude_console_login.png" alt="claude console login">
+                <figcaption>Browser login page</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">If you are asked which organization to connect, pick <code>NF AI Workshop</code>.</p>
+              <figure class="shot">
+                <img src="../media/claude_console_org_selection.png" alt="claude console organization selection">
+                <figcaption>Choose the “NF AI Workshop” organization</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Authorize access, then close the window when prompted and go back to <code>VS Code</code>.</p>
+              <figure class="shot">
+                <img src="../media/claude_console_authorize.png" alt="claude console authorize">
+                <figcaption>Authorize access</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">You're <code>Claude Code</code> window should now look like this.</p>
+              <figure class="shot">
+                <img src="../media/claude_code.png" alt="claude code">
+                <figcaption>Signed in and ready</figcaption>
+              </figure>
+            </li>
+          </ol>
+        </section>
+
+        <!-- ============ SECTION 2 ============ -->
+        <section class="tut-section">
+          <div class="tut-eyebrow">Part 2</div>
+          <h2 class="tut-h2" id="project">Starting a Project with Claude Code</h2>
+
+          <!-- 2.1 -->
+          <h3 class="tut-h3" id="new-project"><span class="num">2.1</span> &nbsp;Setting up a new project</h3>
+
+          <ol class="steps">
+            <li class="step">
+              <p class="step-text">Now let's start a project. Click the <code>Open...</code> button on the <code>Welcome</code> page.</p>
+              <figure class="shot">
+                <img src="../media/vscode_open_folder.png" alt="vscode open folder">
+                <figcaption>Open a folder</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Make a new folder and name it something related to your project.</p>
+              <figure class="shot">
+                <img src="../media/new_folder.png" alt="new folder">
+                <figcaption>Create a project folder</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">And open the folder.</p>
+              <figure class="shot">
+                <img src="../media/open_folder.png" alt="open folder">
+                <figcaption>Open the new folder</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Your VS Code should now look like this:</p>
+              <figure class="shot">
+                <img src="../media/new_proj.png" alt="new proj">
+                <figcaption>Empty project, ready to go</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">In the top-right corner, click the <code>...</code> menu next to <code>CHAT</code> and select <code>Claude Code</code> to pull up Claude in the window.</p>
+              <figure class="shot">
+                <img src="../media/claude_code_chat.png" alt="claude code chat">
+                <figcaption>Reopen Claude Code from the Chat menu</figcaption>
+              </figure>
+            </li>
+          </ol>
+
+          <p>Now you are good to go! In the section below, we will introduce some basic commands when using VS Code and Claude.</p>
+
+          <!-- 2.2 -->
+          <h3 class="tut-h3" id="intro-vscode"><span class="num">2.2</span> &nbsp;An introduction to VS Code</h3>
+
+          <div class="note">VS Code is a popular software development environment.</div>
+
+          <ol class="steps">
+            <li class="step">
+              <p class="step-text">On the left-hand menu, click the <code>file +</code> icon to create a new file. You can also drag-and-drop existing files to add them to your project.</p>
+              <figure class="shot">
+                <img src="../media/vscode_new_file.png" alt="vs code new file">
+                <figcaption>New file</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">The <code>folder +</code> icon to the right creates a new folder. Use this to organize your project.</p>
+              <figure class="shot">
+                <img src="../media/vscode_new_folder.png" alt="vs code new folder">
+                <figcaption>New folder</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">At the top menu bar, select <code>Terminal</code> -&gt; <code>New Terminal</code> (or use the shortcut <code>Ctrl+Shift+tilde</code>) to bring up a new terminal.</p>
+              <figure class="shot">
+                <img src="../media/vscode_new_terminal.png" alt="vs code new terminal">
+                <figcaption>Terminal ▸ New Terminal</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">The new terminal will appear at the bottom of your screen. You can use it to run scripts. If you're not sure how, feel free to ask Claude which commands to run or let Claude run it for you.</p>
+              <figure class="shot">
+                <img src="../media/vscode_terminal.png" alt="vs code terminal">
+                <figcaption>Integrated terminal</figcaption>
+              </figure>
+            </li>
+          </ol>
+
+          <!-- 2.3 -->
+          <h3 class="tut-h3" id="claude-settings"><span class="num">2.3</span> &nbsp;Claude settings</h3>
+
+          <ol class="steps">
+            <li class="step">
+              <p class="step-text">Type <code>/</code> in the bottom text bar like so, and it will bring up some common settings.</p>
+              <figure class="shot">
+                <img src="../media/claude_options.png" alt="claude options">
+                <figcaption>Type / to see commands</figcaption>
+              </figure>
+              <ul class="sub">
+                <li><code>Switch model...</code> lets us choose which model to use. The table below gives a short description of the latest models. We recommend Opus 4.8 for coding tasks.</li>
+              </ul>
+              <div class="note warn">Anthropic's newest model, Fable 5.0, is unavailable due to <a href="https://www.anthropic.com/news/fable-mythos-access">government restrictions</a>.</div>
+              <figure class="shot">
+                <img src="../media/claude_model_comparison.png" alt="claude model comparison">
+                <figcaption>Latest Claude models compared</figcaption>
+              </figure>
+              <ul class="sub">
+                <li><code>Effort</code> determines how many tokens Claude is willing to use when responding to requests. You can read more about it <a href="https://platform.claude.com/docs/en/build-with-claude/effort#effort-levels">here</a>.</li>
+                <li><code>Thinking</code> will enhance reasoning capabilities and increase the amount of time Claude takes to produce an answer.</li>
+              </ul>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Select the <code>&lt;/&gt;</code> button at the bottom of the prompt box to change permission settings. For larger projects, we recommend to use <code>Plan mode</code> first, and then <code>edit automatically</code> once you think the plan looks good.</p>
+              <figure class="shot">
+                <img src="../media/claude_permission.png" alt="claude permissions">
+                <figcaption>Permission modes (the &lt;/&gt; button)</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">Click the <code>+</code> button in the top-right corner to start a new chat.</p>
+              <figure class="shot">
+                <img src="../media/claude_new_chat.png" alt="claude new chat">
+                <figcaption>Start a new chat (+)</figcaption>
+              </figure>
+            </li>
+
+            <li class="step">
+              <p class="step-text">The clock icon in the top-right corner lets you go through previous conversations.</p>
+              <figure class="shot">
+                <img src="../media/claude_prev_convo.png" alt="claude prev convo">
+                <figcaption>Browse past conversations (clock icon)</figcaption>
+              </figure>
+            </li>
+          </ol>
+
+          <div class="note">To learn more about using Claude in VS Code, take a look at the <a href="https://code.claude.com/docs/en/vs-code#get-started">documentation</a>.</div>
+
+          <!-- 2.4 -->
+          <h3 class="tut-h3" id="tips"><span class="num">2.4</span> &nbsp;Tips on using Claude in VS Code</h3>
+
+          <h4 class="tut-h4">General tips</h4>
+          <div class="tip-card">
+            <ul>
+              <li><code>CLAUDE.md</code> is a file that gives Claude a set of rules to follow throughout the whole project. It automatically loads into every session, so you don't need to re-explain general guidelines. Create a <code>CLAUDE.md</code> at the root of your project and copy-paste this into your file: <a href="https://github.com/multica-ai/andrej-karpathy-skills/blob/main/CLAUDE.md">Kaparthy skills for Claude</a>.</li>
+              <li>In the prompt box, you can <code>@-file</code> (e.g. <code>@project_docs.md</code>) to reference a file in your project directly, so Claude doesn't have to go look for it.</li>
+              <li>Manage context-- how much information Claude sees at a time-- by running <code>/clear</code> or <code>/compact &lt;instructions&gt;</code> (e.g. <code>/compact Focus on changes</code>) fairly often to help Claude focus and reduce token usage. Another trick is to let Claude summarize its progress in a <code>PROGRESS.md</code> file as it works so you can use <code>/clear</code> often without loosing information about what Claude is doing.</li>
+              <li>Use <code>/btw</code> for quick questions that don't need to be recorded in conversation history.</li>
+            </ul>
+          </div>
+
+          <div class="note">Visit <a href="https://code.claude.com/docs/en/best-practices">Claude Best Practices</a> for more tips and tricks on using Claude.</div>
+
+          <h4 class="tut-h4">Smaller projects</h4>
+          <p>For smaller projects like personal websites or data filtering scripts, you can use the prompt box to directly tell Claude what to do.</p>
+          <figure class="shot">
+            <img src="../media/claude_prompt.png" alt="claude prompt">
+            <figcaption>Prompt box for smaller projects</figcaption>
+          </figure>
+          <ul class="bullets">
+            <li>use the <code>+</code> button on the bottom left to add relevant files for Claude to reference</li>
+          </ul>
+          <p>You can follow up with any feedback or additional requests by using the prompt box in the same chat.</p>
+
+          <h4 class="tut-h4">Larger projects</h4>
+          <p>For larger projects, I recommend writing a project plan document with the task, requirements, relevant resources and references-- similar to a research proposal. You can also directly give Claude the research proposal and let it start working from there.</p>
+          <ul class="bullets">
+            <li>Here is an example project plan:</li>
+          </ul>
+          <figure class="shot">
+            <img src="../media/claude_plan.png" alt="claude project plan">
+            <figcaption>Example project plan</figcaption>
+          </figure>
+          <ul class="bullets">
+            <li>View the full document <a href="../media/example_plan.md">here</a>.</li>
+          </ul>
+          <p>These plans are often written in Markdown, which is used to easily format text. Just create a file with the ending <code>.md</code> and start writing.</p>
+          <ul class="bullets">
+            <li><a href="https://www.markdownguide.org/cheat-sheet/">This</a> is a formatting cheat sheet.</li>
+            <li>You can view formatted text in VS Code by clicking the <code>magnifying glass book</code> icon on the top-right corner of the middle window, near the Claude icon. This will pull up a preview on the right tab, while you write in the left tab.</li>
+          </ul>
+          <figure class="shot">
+            <img src="../media/markdown_preview.png" alt="markdown preview">
+            <figcaption>Markdown preview in VS Code</figcaption>
+          </figure>
+        </section>
+
+        <a class="tut-back" href="index.html#schedule">&larr; Back to Workshop Schedule</a>
+
+      </main>
+    </div>
+  </div>
+
+  <footer class="tut-foot">
+    NF AI Innovation Workshop 2026 &nbsp;·&nbsp; <a href="index.html">Event home</a> &nbsp;·&nbsp; Tutorial by <a href="https://gxywang.github.io">Gloria Wang</a>
+  </footer>
+
+  <script>
+    // Lightweight scroll-spy to highlight the active TOC entry (no dependencies)
+    (function () {
+      var links = Array.prototype.slice.call(document.querySelectorAll('.tut-toc a'));
+      if (!links.length || !('IntersectionObserver' in window)) return;
+      var map = {};
+      links.forEach(function (a) {
+        var id = a.getAttribute('href').slice(1);
+        if (id) map[id] = a;
+      });
+      var ids = Object.keys(map);
+      var ratios = {};
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          ratios[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0;
+        });
+        var best = null, bestR = -1;
+        ids.forEach(function (id) {
+          if ((ratios[id] || 0) > bestR) { bestR = ratios[id] || 0; best = id; }
+        });
+        if (best && bestR > 0) {
+          links.forEach(function (a) { a.classList.remove('active'); });
+          map[best].classList.add('active');
+        }
+      }, { rootMargin: '-80px 0px -65% 0px', threshold: [0, 0.25, 0.5, 1] });
+      ids.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) obs.observe(el);
+      });
+    })();
+  </script>
+
+</body>
+</html>

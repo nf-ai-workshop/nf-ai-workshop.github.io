@@ -344,17 +344,23 @@
   <div class="section" id="contact">
     <h2>Contact</h2>
     <div>
-      For questions and comments, please contact us at 
-      <span id="email-placeholder"></span>.
+      For workshop questions, please email
+      <span id="email-placeholder"></span>.<br>
+      For questions about the NF Conference, please email <span id="email-placeholder-2"></span>.
     </div>
   </div>
   
   <script>
-    // This builds the link only when the page loads
-    var user = "nfconference";
-    var domain = "ctf.org";
-    document.getElementById('email-placeholder').innerHTML = 
+    // Build the mailto links on load to avoid scraping
+    var user = "nfaiworkshop";
+    var domain = "gmail.com";
+    document.getElementById('email-placeholder').innerHTML =
       '<a href="mailto:' + user + '@' + domain + '">' + user + '@' + domain + '</a>';
+
+    var user2 = "nfconference";
+    var domain2 = "ctf.org";
+    document.getElementById('email-placeholder-2').innerHTML =
+      '<a href="mailto:' + user2 + '@' + domain2 + '">' + user2 + '@' + domain2 + '</a>';
   </script>
 
   <div class="foot">

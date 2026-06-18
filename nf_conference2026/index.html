@@ -16,6 +16,7 @@
     <a href="#register">Register</a>
     <a href="#speakers">Speakers</a>
     <a href="#schedule">Schedule</a>
+    <a href="#demos">Demos</a>
     <a href="#organizers">Organizers</a>
     <a href="#contact">Contact</a>
   </div>
@@ -201,12 +202,12 @@
       <tr>
         <td class="time">10:30 AM</td>
         <td class="who">Shaoxiong Yao<span class="aff">UIUC</span></td>
-        <td class="desc"><span class="dt">Visual segmentation using AI</span> Deep learning approaches for segmenting NF-related tissue structures in medical images</td>
+        <td class="desc"><span class="dt">Visual segmentation using AI</span> Deep learning approaches for segmenting NF-related tissue structures in medical images<br><a class="demo-link" href="#demo-seg">Live demo &#8599;</a></td>
       </tr>
       <tr>
         <td class="time"></td>
         <td class="who">Wenzhou Ding<span class="aff">UIUC</span></td>
-        <td class="desc"><span class="dt">Paper extraction using AI</span> Automated extraction and synthesis of key findings from NF literature to surface insights at scale</td>
+        <td class="desc"><span class="dt">Paper extraction using AI</span> Automated extraction and synthesis of key findings from NF literature to surface insights at scale<br><a class="demo-link" href="#demo-ae">Live demo &#8599;</a></td>
       </tr>
 
       <tr class="section-row"><td colspan="3"><span>Wrap-up</span></td></tr>
@@ -266,6 +267,35 @@
         </td>
       </tr>
     </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="demos">
+    <h2>Demos</h2>
+    <p>Interactive proof-of-concept tools built with agentic AI for NF research. Click through to try them live.</p>
+    <div class="demos">
+      <div class="demo-card" id="demo-seg">
+        <a class="thumb-link" href="https://huggingface.co/spaces/nf-ai-workshop/medical_seg_app" target="_blank" rel="noopener">
+          <img class="thumb" src="images/demo_segmentation.jpg" alt="Visual segmentation using AI demo">
+        </a>
+        <div class="cbody">
+          <a class="demo-meta" href="#schedule">Lightning Round II &middot; Shaoxiong Yao</a>
+          <h3>Visual segmentation using AI</h3>
+          <p>Upload a medical image and segment regions by clicking foreground / background points. GrabCut (OpenCV), CPU-only, with the mask updating live.</p>
+          <a class="launch" href="https://huggingface.co/spaces/nf-ai-workshop/medical_seg_app" target="_blank" rel="noopener">Open demo &#8599;</a>
+        </div>
+      </div>
+      <div class="demo-card" id="demo-ae">
+        <a class="thumb-link" href="https://nf-ae.taila4715f.ts.net" target="_blank" rel="noopener">
+          <img class="thumb" src="images/demo_adverse_events.jpg" alt="Paper extraction using AI demo">
+        </a>
+        <div class="cbody">
+          <a class="demo-meta" href="#schedule">Lightning Round II &middot; Wenzhou Ding</a>
+          <h3>Paper extraction using AI</h3>
+          <p>Extracts and aggregates adverse-event evidence from NF clinical-study papers: 67 studies, 5,500+ patients, and 480 MedDRA-harmonized AE terms.</p>
+          <a class="launch" href="https://nf-ae.taila4715f.ts.net" target="_blank" rel="noopener">Open demo &#8599;</a>
+        </div>
       </div>
     </div>
   </div>
